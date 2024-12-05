@@ -9,6 +9,8 @@ namespace Business.Models
         public ObjectId _id { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? CreatedDate { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime? UpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
         [BsonIgnore]
         public string IdStr
@@ -35,6 +37,18 @@ namespace Business.Models
             set
             {
                 CreatedDate = DateUtil.StringToDateTime(value);
+            }
+        }
+        [BsonIgnore]
+        public string UpdatedDateStr
+        {
+            get
+            {
+                return DateUtil.DateTimeToString(UpdatedDate);
+            }
+            set
+            {
+                UpdatedDate = DateUtil.StringToDateTime(value);
             }
         }
     }

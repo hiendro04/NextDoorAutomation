@@ -1,4 +1,5 @@
 ﻿using Business.Utilities;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace Business.Models
         public DateTime? PostedTime { get; set; }
         public string Content { get; set; }
         public int Status { get; set; }
+        public ObjectId UserUpdateId { get; set; }
+        public string UserUpdateName { get; set; }
+
         [BsonIgnore]
         public string PostedTimeStr
         {
@@ -28,6 +32,19 @@ namespace Business.Models
             set
             {
                 PostedTime = DateUtil.StringToDateTime(value);
+            }
+        }
+
+        [BsonIgnore]
+        public string UserUpdateIdStr
+        {
+            get
+            {
+                return UserUpdateId.ToString();
+            }
+            set
+            {
+                UserUpdateId = ObjectId.Parse(value);
             }
         }
     }
