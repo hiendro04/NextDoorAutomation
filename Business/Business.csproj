@@ -13,7 +13,6 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
     <PackageReference Include="PuppeteerSharp" Version="20.0.5" />
-    <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
   <ItemGroup>

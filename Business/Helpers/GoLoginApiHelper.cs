@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Business.Utilities;
+using PuppeteerSharp;
 using System.Text.Json;
 
 namespace Business.Helpers
@@ -7,6 +8,7 @@ namespace Business.Helpers
     {
         private readonly string _apiToken;
         private readonly string _baseApiUrl = "https://api.gologin.com";
+        private readonly string _baseLocalApiUrl = "http://localhost:36912";
 
         public GoLoginApiHelper(string apiToken)
         {
@@ -15,45 +17,33 @@ namespace Business.Helpers
 
         public async Task<string> GetBrowserProfile(string profileId)
         {
-            var client = new RestClient($"https://api.gologin.com/browser/{profileId}");
-            var request = new RestRequest();
-            request.Method = Method.Get;
-
-            request.AddHeader("Authorization", $"Bearer {_apiToken}");
-
-            var response = client.Execute(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return response.Content; // Thông tin cấu hình browser
-            }
-            else
-            {
-                throw new Exception("Không thể lấy thông tin profile");
-            }
+            var url = $"https://api.gologin.com/browser/{profileId}";
+            var response = await HttpUtil.GetAsync(url, _apiToken);
+            return response;
         }
 
         public async Task<string> StartProfileAsync(string profileId)
         {
-            var client = new RestClient(_baseApiUrl);
-            var request = new RestRequest($"/browser/{profileId}/start", Method.Post);
-            request.AddHeader("Authorization", $"Bearer {_apiToken}");
-
-            var response = await client.ExecuteAsync(request);
-            if (!response.IsSuccessful)
+            var url = _baseLocalApiUrl + "/browser/start-profile";
+            var body = new
             {
-                throw new Exception($"Failed to start profile: {response.Content}");
-            }
+                profileId = profileId,
+                sync = true,
+            };
 
-            var jsonResponse = JsonSerializer.Deserialize<Dictionary<string, object>>(response.Content);
-            return jsonResponse?["webSocketDebuggerUrl"]?.ToString() ?? throw new Exception("webSocketDebuggerUrl not found.");
+            var response = await HttpUtil.PostAsync(url, body, _apiToken);
+            return JsonSerializer.Deserialize<Dictionary<string, object>>(response)?["wsUrl"]?.ToString() ?? throw new Exception("webSocketDebuggerUrl not found.");
         }
 
         public async Task StopProfileAsync(string profileId)
         {
-            var client = new RestClient(_baseApiUrl);
-            var request = new RestRequest($"/browser/{profileId}/stop", Method.Post);
-            request.AddHeader("Authorization", $"Bearer {_apiToken}");
-            await client.ExecuteAsync(request);
+            var url = _baseLocalApiUrl + "/browser/stop-profile";
+            var body = new
+            {
+                profileId = profileId,
+            };
+
+            await HttpUtil.PostAsync(url, body, _apiToken);
         }
     }
 }

@@ -1,94 +1,91 @@
-﻿using PuppeteerSharp;
+﻿using Business.Helpers;
+using PuppeteerSharp;
 
 namespace NextDoorAutomation
 {
-    public class test
+    public class Test
     {
-        public async Task testF()
+        string apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmVlZGMwMWRiNjZjYjExZWVjYTgzYWUiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NzUxY2U1ZGNkNGMzMDA2ZmUxZmE0NWEifQ.Lbph_t43G49qUbXW4rLVyOkfDPPYQPQ-uLIiNVjyeys";
+        string profileId = "673c93c52a10ef033f803be7";
+        public async Task GetData()
         {
+            try
+            {
+                var gologinInfo = new GoLoginApiHelper(apiToken);
+                //string wsUrl = "ws://127.0.0.1:24620/devtools/browser/03d13bcf-ea96-4116-99ad-a84152af0e53";
+                string wsUrl = await gologinInfo.StartProfileAsync(profileId);
 
-        string apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzRlY2I1MGNiY2JlZWFlYWExMTBmOGYiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NzUwMjY0YjA0MzM0NWI5ZTkxMmI0YmMifQ.lS_PGRldsPF3QLp34BYwhb2xD7v0lsZbntr5Z9z9HpM";
-        string profileId = "674f0da6c82e63b31f0dcf00";
+                #region test 2 - ok
+                await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
+                {
+                    BrowserWSEndpoint = wsUrl,
+                });
 
-        #region test
-        //try
-        //{
-        //    // Bắt đầu profile trên GoLogin
-        //    var gologinApi = new GoLoginApiHelper(apiToken);
-        //    string webSocketDebuggerUrl = await gologinApi.StartProfileAsync(profileId);
+                //var page = await browser.NewPageAsync();
+                var pages = await browser.PagesAsync();
+                var page = pages.FirstOrDefault();
+                await page.GoToAsync("https://nextdoor.com/");
 
-        //    // Khởi tạo Selenium WebDriver
-        //    var seleniumHelper = new SeleniumHelper();
-        //    IWebDriver driver = seleniumHelper.CreateWebDriver(webSocketDebuggerUrl);
-        //    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(100));
+                // Chờ cho container chính của newsfeed hiển thị
+                await page.WaitForSelectorAsync("div[data-testid='feed-container']", new WaitForSelectorOptions
+                {
+                    Timeout = 999999
+                });
 
-        //    // Điều khiển trình duyệt qua Selenium
-        //    driver.Navigate().GoToUrl("https://nextdoor.com/");
+                // Tìm các bài viết trực tiếp từ PuppeteerSharp
+                var postElements = await page.QuerySelectorAllAsync("div[data-testid='feed-container'] div[data-v3-view-type='V3Wrapper']");
 
-        //    var btnLoginSelector = "#root > div > div > div._1yixros4 > div:nth-child(3) > div > a";
+                var posts = new List<string>();
 
-        //    var loginButton = wait.Until(driver =>
-        //    {
-        //        var element = driver.FindElement(By.ClassName(btnLoginSelector));
-        //        return (element.Displayed && element.Enabled) ? element : null;
-        //    });
+                // Lấy nội dung từng bài viết
+                foreach (var postElement in postElements)
+                {
+                    // Trích xuất nội dung văn bản của bài post
+                    var content = await postElement.EvaluateFunctionAsync<string>("node => node.innerText");
+                    posts.Add(content);
+                }
 
-        //    loginButton.Click();
+                // In danh sách bài viết
+                Console.WriteLine("Danh sách bài viết:");
+                foreach (var post in posts)
+                {
+                    Console.WriteLine("-----------");
+                    Console.WriteLine(post);
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+            }
 
-        //    Console.WriteLine(driver.Title);
-        //}
-        //catch(Exception ex)
-        //{
-        //    Console.WriteLine(ex.Message);
-        //}
+        }
 
-        #endregion
-
-        #region test 1
-        //try
-        //{
-        //    var gologinApi = new GoLoginApiHelper(apiToken);
-        //    var browserPath = await gologinApi.GetBrowserProfile(profileId);
-        //    // Cấu hình Selenium với trình duyệt GoLogin
-        //    ChromeOptions options = new ChromeOptions();
-        //    options.BinaryLocation = browserPath;
-
-        //    // Tạo driver và khởi chạy trình duyệt
-        //    IWebDriver driver = new OpenQA.Selenium.Chrome.ChromeDriver(options);
-
-        //    // Mở trang web thử nghiệm
-        //    driver.Navigate().GoToUrl("https://example.com");
-
-        //    Console.WriteLine($"Title: {driver.Title}");
-
-        //    // Đóng trình duyệt sau khi hoàn thành
-        //    driver.Quit();
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine(ex.Message);
-        //}
-        #endregion
-
-        #region test 2 - ok
-        string wsUrl = "ws://127.0.0.1:26236/devtools/browser/f0b70ab9-d3a1-42bc-936b-836d3e40b4f4";
-        await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
+        public async Task Inbox()
         {
-            BrowserWSEndpoint = wsUrl
-        });
+            string wsUrl = "ws://127.0.0.1:26236/devtools/browser/f0b70ab9-d3a1-42bc-936b-836d3e40b4f4";
 
-        var pages = await browser.PagesAsync();
-        var page = pages.FirstOrDefault();
-        await page.GoToAsync("https://nextdoor.com/");
+            var gologinInfo = new GoLoginApiHelper(apiToken);
+            wsUrl = await gologinInfo.StartProfileAsync(profileId);
 
-        var title = await page.GetTitleAsync();
+            #region test 2 - ok
+            await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
+            {
+                BrowserWSEndpoint = wsUrl
+            });
 
-        // Chờ đến khi phần tử xuất hiện
-        await page.WaitForSelectorAsync("[data-testid='nux-top-bar-login-button']");
+            var pages = await browser.PagesAsync();
+            var page = pages.FirstOrDefault();
+            await page.GoToAsync("https://nextdoor.com/");
 
-        await page.ClickAsync("[data-testid='nux-top-bar-login-button']");
+            var title = await page.GetTitleAsync();
 
-        #endregion
+            // Chờ đến khi phần tử xuất hiện
+            await page.WaitForSelectorAsync("[data-testid='nux-top-bar-login-button']");
+
+            await page.ClickAsync("[data-testid='nux-top-bar-login-button']");
+
+            #endregion
         }
 
     }
