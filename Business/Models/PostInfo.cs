@@ -44,7 +44,10 @@ namespace Business.Models
             }
             set
             {
-                UserUpdateId = ObjectId.Parse(value);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    UserUpdateId = ObjectId.Parse(value);
+                }
             }
         }
     }
