@@ -1,35 +1,31 @@
-﻿using NextDoorAutomation;
+﻿
 
-var test = new Test();
-await test.GetData();
+var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddMvc().AddRazorRuntimeCompilation();
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
-//var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 
-//// Add services to the container.
-//builder.Services.AddMvc().AddRazorRuntimeCompilation();
-//// Add services to the container.
-//builder.Services.AddControllersWithViews();
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-//var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-//// Configure the HTTP request pipeline.
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseExceptionHandler("/Home/Error");
-//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//    app.UseHsts();
-//}
+app.UseRouting();
 
-//app.UseHttpsRedirection();
-//app.UseStaticFiles();
+app.UseAuthorization();
 
-//app.UseRouting();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//app.UseAuthorization();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-//app.Run();
+app.Run();

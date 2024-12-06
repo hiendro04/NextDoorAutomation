@@ -6,7 +6,7 @@ namespace NextDoorAutomation
     public class Test
     {
         string apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmVlZGMwMWRiNjZjYjExZWVjYTgzYWUiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NzUxY2U1ZGNkNGMzMDA2ZmUxZmE0NWEifQ.Lbph_t43G49qUbXW4rLVyOkfDPPYQPQ-uLIiNVjyeys";
-        string profileId = "673c93c52a10ef033f803be7";
+        string profileId = "673c912fecbebacfed635da1";
         public async Task GetData()
         {
             try
@@ -76,14 +76,14 @@ namespace NextDoorAutomation
 
             var pages = await browser.PagesAsync();
             var page = pages.FirstOrDefault();
-            await page.GoToAsync("https://nextdoor.com/");
+            await page.GoToAsync("https://www.facebook.com/");
 
             var title = await page.GetTitleAsync();
 
             // Chờ đến khi phần tử xuất hiện
-            await page.WaitForSelectorAsync("[data-testid='nux-top-bar-login-button']");
+            await page.WaitForSelectorAsync("[data-testid='open-registration-form-button']");
 
-            await page.ClickAsync("[data-testid='nux-top-bar-login-button']");
+            await page.ClickAsync("[data-testid='open-registration-form-button']");
 
             #endregion
         }
