@@ -18,6 +18,9 @@ namespace Business.Models
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? PostedTime { get; set; }
         public string Content { get; set; }
+        /// <summary>
+        /// POST_STATUS: 0 - NOTSENT, 1 - SENT, 2 - CANCEL
+        /// </summary>
         public int Status { get; set; }
         public ObjectId UserUpdateId { get; set; }
         public string UserUpdateName { get; set; }

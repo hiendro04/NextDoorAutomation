@@ -12,6 +12,10 @@ namespace Business.Models
         /// PROFILE_TYPE: 0 - SPAM, 1 - TPP 
         /// </summary>
         public int Type { get; set; }
+        /// <summary>
+        /// PROFILE_STATUS: 0 - ACTIVE, 1 - BLOCK
+        /// </summary>
+        public int Status { get; set; }
         public string Description { get; set; }
         public ObjectId UserId { get; set; }
         [BsonIgnore]

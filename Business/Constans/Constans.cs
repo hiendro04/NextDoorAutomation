@@ -16,4 +16,17 @@ namespace Business.Constans
         SPAM,
         TPP
     }
+
+    public enum PROFILE_STATUS
+    {
+        ACTIVE,
+        BLOCK
+    }
+
+    public enum POST_STATUS
+    {
+        NOTSENT,
+        SENT,
+        CANCEL
+    }
 }
