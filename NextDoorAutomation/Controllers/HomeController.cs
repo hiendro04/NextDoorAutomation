@@ -11,9 +11,9 @@ namespace NextDoorAutomation.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //var test = new Test();
-            //await test.GetData();
-            //Console.WriteLine("---");
+            var test = new Test();
+            await test.GetData();
+            Console.WriteLine("---");
             return View();
         }
 
