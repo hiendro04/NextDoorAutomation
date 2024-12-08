@@ -74,7 +74,7 @@ namespace NextDoorAutomationApp
 
         private void UpdatePageNumber()
         {
-            PageNumberText.Text = $"Page {pageIndex} of {Math.Ceiling((double)totalPosts / pageSize)}";
+            PageNumberText.Text = $"{pageIndex}/{Math.Ceiling((double)totalPosts / pageSize)}";
             TotalPostsText.Text = $"Total posts: {totalPosts}";
         }
 
