@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextDoorAutomation", "NextDoorAutomation\NextDoorAutomation.csproj", "{3DCE2CE0-106C-45BA-8CA8-946156DAAA9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextDoorAutomation", "NextDoorAutomation\NextDoorAutomation.csproj", "{3DCE2CE0-106C-45BA-8CA8-946156DAAA9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{B487E0D4-1E48-403D-A133-7F94BC40D5EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{B487E0D4-1E48-403D-A133-7F94BC40D5EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextDoorAutomationApp", "NextDoorAutomationApp\NextDoorAutomationApp.csproj", "{AC7AC423-DDB3-4154-ACE5-6AC2B96571D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B487E0D4-1E48-403D-A133-7F94BC40D5EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B487E0D4-1E48-403D-A133-7F94BC40D5EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B487E0D4-1E48-403D-A133-7F94BC40D5EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7AC423-DDB3-4154-ACE5-6AC2B96571D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7AC423-DDB3-4154-ACE5-6AC2B96571D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7AC423-DDB3-4154-ACE5-6AC2B96571D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7AC423-DDB3-4154-ACE5-6AC2B96571D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

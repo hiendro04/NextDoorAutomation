@@ -1,0 +1,66 @@
+﻿<Window x:Class="NextDoorAutomationApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NextDoorAutomationApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <!-- Header Layout -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="LightGray">
+            <!-- GologinInfo -->
+            <Button Content="GologinInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
+                    Click="GologinInfo_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsGologinInfoActive}" Value="True">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- ProfileInfo -->
+            <Button Content="ProfileInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
+                    Click="ProfileInfo_Click" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsProfileInfoActive}" Value="True">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- PostInfo -->
+            <Button x:Name="PostInfoButton" Content="PostInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
+                    Click="PostInfo_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPostInfoActive}" Value="True">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <ContentControl Grid.Row="1" Content="{Binding CurrentView}" Margin="0,0,0,0" />
+    </Grid>
+</Window>

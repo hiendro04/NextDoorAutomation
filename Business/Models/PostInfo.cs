@@ -17,6 +17,7 @@ namespace Business.Models
         public string NeighborhoodName { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? PostedTime { get; set; }
+        public string TimePosted { get; set; }
         public string Content { get; set; }
         /// <summary>
         /// POST_STATUS: 0 - NOTSENT, 1 - SENT, 2 - CANCEL

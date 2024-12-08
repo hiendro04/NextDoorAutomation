@@ -10,22 +10,7 @@ namespace NextDoorAutomation.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-            var test = new Test();
-            await test.GetData();
-            Console.WriteLine("---");
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

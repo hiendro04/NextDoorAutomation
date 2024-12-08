@@ -9,6 +9,8 @@ namespace Business.Helpers
         private readonly string _apiToken;
         private readonly string _baseApiUrl = "https://api.gologin.com";
         private readonly string _baseLocalApiUrl = "http://localhost:36912";
+        //private readonly string _baseLocalApiUrl = "http://127.0.0.1:36912";
+        //private readonly string _baseLocalApiUrl = "http://1.55.166.129:36912";
 
         public GoLoginApiHelper(string apiToken)
         {
@@ -17,7 +19,7 @@ namespace Business.Helpers
 
         public async Task<string> GetBrowserProfile(string profileId)
         {
-            var url = $"https://api.gologin.com/browser/{profileId}";
+            var url = $"{_baseApiUrl}/browser/{profileId}";
             var response = await HttpUtil.GetAsync(url, _apiToken);
             return response;
         }
