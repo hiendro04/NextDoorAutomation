@@ -134,23 +134,30 @@ namespace Business.Business
 
         public async Task Inbox(PostInfo info)
         {
-            var gologinInfo = new GoLoginApiHelper(apiToken);
-            var wsUrl = await gologinInfo.StartProfileAsync(profileId);
-
-            #region test 2 - ok
-            await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
+            try
             {
-                BrowserWSEndpoint = wsUrl
-            });
+                var gologinInfo = new GoLoginApiHelper(apiToken);
+                var wsUrl = await gologinInfo.StartProfileAsync(profileId);
+                //string wsUrl = "ws://127.0.0.1:24620/devtools/browser/03d13bcf-ea96-4116-99ad-a84152af0e53";
+                Task.Delay(10000);
+                #region test 2 - ok
+                await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
+                {
+                    BrowserWSEndpoint = wsUrl
+                });
+                var pages = await browser.PagesAsync();
+                var page = pages.FirstOrDefault();
+                await page.GoToAsync(info.CustomerProfileUrl);
+                Task.Delay(15000);
+                // Chờ đến khi phần tử xuất hiện
+                await page.WaitForSelectorAsync("button.blocks-1g1g3ih");
 
-            var pages = await browser.PagesAsync();
-            var page = pages.FirstOrDefault();
-            await page.GoToAsync($"https://nextdoor.com/{info.CustomerProfileUrl}");
-
-            // Chờ đến khi phần tử xuất hiện
-            await page.WaitForSelectorAsync("[data-testid='open-registration-form-button']");
-
-            await page.ClickAsync("[data-testid='open-registration-form-button']");
+                await page.ClickAsync("button.blocks-1g1g3ih");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
             #endregion
         }

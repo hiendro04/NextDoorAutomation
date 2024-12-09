@@ -1,4 +1,5 @@
-﻿using Business.Constans;
+﻿using Business.Business;
+using Business.Constans;
 using Business.Dao;
 using Business.Models;
 using PuppeteerSharp;
@@ -127,10 +128,12 @@ namespace NextDoorAutomationApp
             var info = button?.DataContext as PostInfo; // Đảm bảo rằng DataContext là item của danh sách dữ liệu
             if (info != null)
             {
+                BusinessTool.GetInstance().Inbox(info);
                 //todo - send message
                 info.Status = (int)POST_STATUS.SENT;
                 PostDao.GetInstance().Replace(info);
             }
+            LoadData();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

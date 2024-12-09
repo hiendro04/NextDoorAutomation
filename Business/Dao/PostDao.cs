@@ -23,7 +23,7 @@ namespace Business.Dao
             var f = Builders<PostInfo>.Filter.Empty;
             if (!string.IsNullOrWhiteSpace(textSearch))
             {
-                f &= Builders<PostInfo>.Filter.Where(p => p.NeighborhoodName.Contains(textSearch));
+                f &= Builders<PostInfo>.Filter.Where(p => p.NeighborhoodName.ToLower().Contains(textSearch.ToLower()));
             }
             if(fromTime != null && toTime != null)
             {
