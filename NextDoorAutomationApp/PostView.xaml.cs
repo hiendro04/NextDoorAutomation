@@ -121,14 +121,14 @@ namespace NextDoorAutomationApp
             }
         }
 
-        private void SendButton_Click(object sender, RoutedEventArgs e)
+        private async void SendButton_Click(object sender, RoutedEventArgs e)
         {
             // Lấy ID của hàng hiện tại
             var button = sender as Button;
             var info = button?.DataContext as PostInfo; // Đảm bảo rằng DataContext là item của danh sách dữ liệu
             if (info != null)
             {
-                BusinessTool.GetInstance().Inbox(info);
+                await BusinessTool.GetInstance().Inbox(info);
                 //todo - send message
                 info.Status = (int)POST_STATUS.SENT;
                 PostDao.GetInstance().Replace(info);

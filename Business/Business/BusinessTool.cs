@@ -137,8 +137,8 @@ namespace Business.Business
             try
             {
                 var gologinInfo = new GoLoginApiHelper(apiToken);
-                var wsUrl = await gologinInfo.StartProfileAsync(profileId);
-                //string wsUrl = "ws://127.0.0.1:24620/devtools/browser/03d13bcf-ea96-4116-99ad-a84152af0e53";
+                //var wsUrl = await gologinInfo.StartProfileAsync(profileId);
+                string wsUrl = "ws://127.0.0.1:25869/devtools/browser/4ef77a5b-be7f-45bc-8b3f-f6faec4a4fb8";
                 Task.Delay(10000);
                 #region test 2 - ok
                 await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
