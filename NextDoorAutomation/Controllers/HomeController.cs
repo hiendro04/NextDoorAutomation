@@ -11,7 +11,7 @@ namespace NextDoorAutomation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //BusinessTool.GetInstance().GetData();
+            BusinessTool.GetInstance().StartProfileAsync();
             return View();
         }
     }

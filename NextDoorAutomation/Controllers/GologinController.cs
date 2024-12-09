@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Business;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NextDoorAutomation.Controllers
 {
@@ -7,6 +8,7 @@ namespace NextDoorAutomation.Controllers
         public GologinController() { }
         public async Task<IActionResult> Index()
         {
+            BusinessTool.GetInstance().GetData();
             return View();
         }
     }

@@ -29,34 +29,33 @@ namespace Business.Business
             try
             {
                 var gologinInfo = new GoLoginApiHelper(apiToken);
-                //string wsUrl = "ws://127.0.0.1:24620/devtools/browser/03d13bcf-ea96-4116-99ad-a84152af0e53";
-                string wsUrl = await gologinInfo.StartProfileAsync(profileId);
+                //string wsUrl = await gologinInfo.StartProfileAsync(profileId);
+                var wsUrlInfo = WsUrlDao.GetInstance().GetLastInfo(profileId);
+                string wsUrl = wsUrlInfo.WsUrl;
 
                 //todo-tạm thời do mạng chậm để load trang full
-                Task.Delay(10000);
-
                 #region test 2 - ok
                 await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
                 {
                     BrowserWSEndpoint = wsUrl,
                 });
 
+                await delayTime(wsUrlInfo.DelayTime);
+
                 //var page = await browser.NewPageAsync();
                 var pages = await browser.PagesAsync();
                 var page = pages.FirstOrDefault();
-                //await page.GoToAsync("https://nextdoor.com/news_feed/", null, [WaitUntilNavigation.DOMContentLoaded]);
+                await page.GoToAsync("https://nextdoor.com/news_feed/", null, [WaitUntilNavigation.DOMContentLoaded]);
+
+                await delayTime(wsUrlInfo.DelayTime);
 
                 // Chờ cho container chính của newsfeed hiển thị
-                await page.WaitForSelectorAsync("div[data-testid='feed-container']", new WaitForSelectorOptions
-                {
-                    Timeout = 50000
-                });
-                Task.Delay(15000);
-                // Số lần cuộn
-                int scrollTimes = 5;
+                await page.WaitForSelectorAsync("div[data-testid='feed-container']");
 
-                // Khoảng thời gian chờ sau mỗi lần cuộn (để tải bài viết mới)
-                int scrollDelay = 3000; // 3 giây
+                await delayTime(wsUrlInfo.DelayTime);
+
+                // Số lần cuộn
+                int scrollTimes = 10;
 
                 // Cuộn xuống nhiều lần
                 for (int i = 0; i < scrollTimes; i++)
@@ -67,7 +66,7 @@ namespace Business.Business
                     await page.EvaluateExpressionAsync(@"window.scrollTo(0, document.body.scrollHeight)");
 
                     // Chờ một khoảng thời gian để trang tải thêm nội dung
-                    await Task.Delay(scrollDelay);
+                    await delayTime(wsUrlInfo.DelayTime);
                 }
 
                 // Tìm các bài viết trực tiếp từ PuppeteerSharp
@@ -104,23 +103,36 @@ namespace Business.Business
                         var Content = await postElement.QuerySelectorAsync("div[data-testid='post-body'] span.postTextBodySpan span.Linkify")
                             ?.EvaluateFunctionAsync<string>("node => node.innerText");
 
-                        // Thêm vào danh sách bài post
-                        posts.Add(new PostInfo
+                        var info = new PostInfo
                         {
-                            CustomerName = customerName,
-                            CustomerProfileUrl = customerProfileUrl,
-                            NeighborhoodName = neighborhoodName,
-                            CustomerAvatarUrl = customerAvatarUrl,
-                            TimePosted = TimePosted,
-                            Content = Content,
+                            CustomerName = customerName.Trim(),
+                            CustomerProfileUrl = customerProfileUrl.Trim(),
+                            NeighborhoodName = neighborhoodName.Trim(),
+                            CustomerAvatarUrl = customerAvatarUrl.Trim(),
+                            TimePosted = TimePosted.Trim(),
+                            Content = Content.Trim(),
                             CreatedDate = DateTime.UtcNow,
-                        });
+                            PostedTime = getPostedTime(TimePosted.Trim())
+                        };
+
+                        //check
+                        if (PostDao.GetInstance().IsExist(info)) continue;
+
+                        var oldInfo = posts.Find(p => p.Content.ToLower() == info.Content.ToLower()
+                                                    && p.NeighborhoodName.ToLower() == info.NeighborhoodName.ToLower()
+                                                    && p.CustomerName.ToLower() == info.CustomerName.ToLower());
+                        if (oldInfo != null) continue;
+
+                        // Thêm vào danh sách bài post
+                        posts.Add(info);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
                     }
                 }
+
+                browser.Disconnect();
 
                 PostDao.GetInstance().InsertRange(posts);
                 #endregion
@@ -131,28 +143,35 @@ namespace Business.Business
             }
 
         }
-
         public async Task Inbox(PostInfo info)
         {
             try
             {
                 var gologinInfo = new GoLoginApiHelper(apiToken);
                 //var wsUrl = await gologinInfo.StartProfileAsync(profileId);
-                string wsUrl = "ws://127.0.0.1:25869/devtools/browser/4ef77a5b-be7f-45bc-8b3f-f6faec4a4fb8";
-                Task.Delay(10000);
+                var wsUrlInfo = WsUrlDao.GetInstance().GetLastInfo(profileId);
+                string wsUrl = wsUrlInfo.WsUrl;
+
                 #region test 2 - ok
                 await using var browser = await Puppeteer.ConnectAsync(new ConnectOptions
                 {
                     BrowserWSEndpoint = wsUrl
                 });
+
+                await delayTime(wsUrlInfo.DelayTime);
+
                 var pages = await browser.PagesAsync();
                 var page = pages.FirstOrDefault();
                 await page.GoToAsync(info.CustomerProfileUrl);
-                Task.Delay(15000);
+
+                await delayTime(wsUrlInfo.DelayTime);
+
                 // Chờ đến khi phần tử xuất hiện
                 await page.WaitForSelectorAsync("button.blocks-1g1g3ih");
 
                 await page.ClickAsync("button.blocks-1g1g3ih");
+
+                browser.Disconnect();
             }
             catch (Exception ex)
             {
@@ -161,20 +180,61 @@ namespace Business.Business
 
             #endregion
         }
-        public async Task<string> GetProfileAsync()
+        public async Task StartProfileAsync()
         {
             try
             {
                 var gologinInfo = new GoLoginApiHelper(apiToken);
-                //string wsUrl = "ws://127.0.0.1:24620/devtools/browser/03d13bcf-ea96-4116-99ad-a84152af0e53";
-                string rs = await gologinInfo.GetBrowserProfile(profileId);
-                return rs;
+                var wsUrl = await gologinInfo.StartProfileAsync(profileId);
+
+                var info = new WsUrlInfo()
+                {
+                    Name = "alex10013",
+                    ProfileId = profileId,
+                    WsUrl = wsUrl,
+                    CreatedDate = DateTime.Now,
+                    DelayTime = 10
+                };
+                WsUrlDao.GetInstance().Insert(info);
             }
             catch (Exception ex)
             {
-                return "";
                 Console.WriteLine($"Error: {ex}");
             }
         }
+
+        private DateTime? getPostedTime(string agoTime)
+        {
+            var now = DateTime.UtcNow;
+            if (int.TryParse(agoTime.Split(' ')[0], out int c))
+            {
+                if (agoTime.Contains("min ago"))
+                {
+                    return now.AddMinutes(-c);
+                }
+                if (agoTime.Contains("hr ago"))
+                {
+                    return now.AddHours(-c);
+                }
+                if (agoTime.Contains("day ago") || agoTime.Contains("days ago"))
+                {
+                    return now.AddDays(-c);
+                }
+            }
+            return now;
+        }
+
+        private async Task delayTime(int time)
+        {
+            if (time > 0)
+            {
+                await Task.Delay(time * 1000);
+            }
+            else
+            {
+                await Task.Delay(15000);
+            }
+        }
+
     }
 }

@@ -36,7 +36,7 @@ namespace Business.Dao
 
             total = (int)GetCollection().CountDocuments(f);
 
-            var S = Builders<PostInfo>.Sort.Descending(p => p.TimePosted);
+            var S = Builders<PostInfo>.Sort.Descending(p => p.PostedTime);
 
             if (pageIndex > 0 && pageIndex > 0)
             {
@@ -45,6 +45,25 @@ namespace Business.Dao
                     .ToList();
             }
             return GetCollection().Find(f).Sort(S).ToList();
+        }
+
+        public bool IsExist(PostInfo info)
+        {
+            var f = Builders<PostInfo>.Filter.Empty;
+            if (!string.IsNullOrWhiteSpace(info.NeighborhoodName))
+            {
+                f &= Builders<PostInfo>.Filter.Where(p => p.NeighborhoodName.ToLower() == info.NeighborhoodName.ToLower());
+            }
+            if (!string.IsNullOrWhiteSpace(info.Content))
+            {
+                f &= Builders<PostInfo>.Filter.Where(p => p.Content.ToLower() == info.Content.ToLower());
+            }
+            if (!string.IsNullOrWhiteSpace(info.CustomerName))
+            {
+                f &= Builders<PostInfo>.Filter.Where(p => p.CustomerName.ToLower() == info.CustomerName.ToLower());
+            }
+
+            return (int)GetCollection().Find(f).Count() > 0;
         }
     }
 }
