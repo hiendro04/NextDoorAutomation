@@ -19,6 +19,14 @@ namespace Business.Models
         public string Description { get; set; }
         public ObjectId UserId { get; set; }
         [BsonIgnore]
+        public string TypeName { get; set; }
+        [BsonIgnore]
+        public string StatusName { get; set; }
+        [BsonIgnore]
+        public string Username { get; set; }
+        [BsonIgnore]
+        public string GologinName { get; set; }
+        [BsonIgnore]
         public string GologinIdStr
         {
             get

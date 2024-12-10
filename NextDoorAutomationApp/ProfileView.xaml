@@ -3,10 +3,83 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NextDoorAutomationApp"
+             xmlns:local="clr-namespace:NextDoorAutomationApp.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:StatusToTextConverter x:Key="StatusToTextConverter"/>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <!-- Thẻ title -->
+        <TextBlock Grid.Row="0" Text="List Profile" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10" />
+
+        <!-- Bộ lọc -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
+            <!-- Lọc theo tên-->
+            <TextBlock Text="Name: "
+               Foreground="Gray"
+               VerticalAlignment="Center"
+               Margin="5,0,0,0"
+               IsHitTestVisible="False" />
+            <TextBox Name="NameFilter" Width="200" Margin="0,10,10,0"/>
+
+            <!-- Lọc theo trạng thái -->
+            <TextBlock Text="Type: "
+               Foreground="Gray"
+               VerticalAlignment="Center"
+               Margin="5,0,0,0"
+               IsHitTestVisible="False"/>
+            <ComboBox Name="StatusFilter" Width="150" Margin="0,10,10,0">
+                <ComboBoxItem Tag="-1" Content="All" />
+                <ComboBoxItem Tag="0" Content="SPAM" />
+                <ComboBoxItem Tag="1" Content="TPP" />
+            </ComboBox>
+
+            <!-- Nút tìm kiếm -->
+            <Button Content="Search" Margin="0,10,0,0" VerticalAlignment="Center" Click="SearchButton_Click" />
+
+            <!-- Nút Thêm mới -->
+            <Button Content="Add" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="200 10 0 0" Click="AddNewButton_Click" />
+        </StackPanel>
+
+        <!-- Danh sách post -->
+        <DataGrid Grid.Row="2" Name="DataList" AutoGenerateColumns="False" Margin="10,10,10,60">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+
+                <DataGridTextColumn Header="Id" Binding="{Binding ProfilePublicId}" Width="*" IsReadOnly="True" />
+
+                <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="*" IsReadOnly="True" />
+                
+                <DataGridTextColumn Header="Status" Binding="{Binding StatusName}" Width="*" IsReadOnly="True" />
+
+                <DataGridTextColumn Header="User" Binding="{Binding Username}" Width="*" IsReadOnly="True" />
+                
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Phân trang -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10">
+            <TextBlock Name="TotalText" HorizontalAlignment="Left" Margin="0" Padding="5" />
+            <Button Content="Previous" Width="100" Click="PreviousPage_Click" />
+            <TextBlock Name="PageNumberText" VerticalAlignment="Center" Margin="10,10" />
+            <Button Content="Next" Width="100" Click="NextPage_Click" />
+
+            <!-- ComboBox để chọn số bản ghi trên mỗi trang -->
+            <ComboBox Name="PageSizeComboBox" Width="80" Margin="10,0" Padding="5" SelectionChanged="PageSizeComboBox_SelectionChanged">
+                <ComboBoxItem Content="10" />
+                <ComboBoxItem Content="20" />
+                <ComboBoxItem Content="30" />
+                <ComboBoxItem Content="40" />
+                <ComboBoxItem Content="50" />
+            </ComboBox>
+        </StackPanel>
     </Grid>
 </UserControl>

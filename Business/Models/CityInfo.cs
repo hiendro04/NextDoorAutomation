@@ -8,26 +8,24 @@ using System.Threading.Tasks;
 
 namespace Business.Models
 {
-    public class GologinInfo : BaseModel
+    public class CityInfo : BaseModel
     {
         public string Name { get; set; }
-        public string GologinPublicId { get; set; }
-        public string Description { get; set; }
-        public ObjectId UserId { get; set; }
+        public string ReferenceLink { get; set; }
+        public int NeighborhoodCount { get; set; }
+        public ObjectId StateId { get; set; }
         [BsonIgnore]
-        public string Username { get; set; }
-        [BsonIgnore]
-        public string UserIdStr
+        public string StateIdStr
         {
             get
             {
-                return UserId.ToString();
+                return StateId.ToString();
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    UserId = new ObjectId(value);
+                    StateId = new ObjectId(value);
                 }
             }
         }

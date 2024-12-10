@@ -2,11 +2,8 @@
 using Business.Constans;
 using Business.Dao;
 using Business.Models;
-using PuppeteerSharp;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace NextDoorAutomationApp

@@ -52,7 +52,7 @@ namespace Business.Business
                 // Chờ cho container chính của newsfeed hiển thị
                 await page.WaitForSelectorAsync("div[data-testid='feed-container']");
 
-                await delayTime(wsUrlInfo.DelayTime);
+                //await delayTime(wsUrlInfo.DelayTime);
 
                 // Số lần cuộn
                 int scrollTimes = 10;
