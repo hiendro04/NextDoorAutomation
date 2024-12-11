@@ -8,7 +8,7 @@ namespace NextDoorAutomation.Controllers
         public GologinController() { }
         public async Task<IActionResult> Index()
         {
-            BusinessTool.GetInstance().GetData();
+            //BusinessTool.GetInstance().GetData();
             return View();
         }
     }

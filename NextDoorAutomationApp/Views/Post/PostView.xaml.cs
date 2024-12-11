@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace NextDoorAutomationApp
+namespace NextDoorAutomationApp.Views.Post
 {
     /// <summary>
     /// Interaction logic for PostView.xaml

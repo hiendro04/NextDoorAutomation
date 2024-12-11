@@ -7,39 +7,39 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="GologinAddView.xaml.cs">
+    <Compile Update="Views\Gologin\GologinAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ProfileAddView.xaml.cs">
+    <Compile Update="Views\Profile\ProfileAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="GologinView.xaml.cs">
+    <Compile Update="Views\Gologin\GologinView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="PostView.xaml.cs">
+    <Compile Update="Views\Post\PostView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ProfileView.xaml.cs">
+    <Compile Update="Views\Profile\ProfileView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="GologinAddView.xaml">
+    <Page Update="Views\Gologin\GologinAddView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ProfileAddView.xaml">
+    <Page Update="Views\Profile\ProfileAddView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GologinView.xaml">
+    <Page Update="Views\Gologin\GologinView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="PostView.xaml">
+    <Page Update="Views\Post\PostView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ProfileView.xaml">
+    <Page Update="Views\Profile\ProfileView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

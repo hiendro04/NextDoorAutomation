@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NextDoorAutomationApp.Views.Gologin;
+using NextDoorAutomationApp.Views.Post;
+using NextDoorAutomationApp.Views.Profile;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 

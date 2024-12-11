@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Business\Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\Profiles\" />
+  </ItemGroup>
+
 </Project>

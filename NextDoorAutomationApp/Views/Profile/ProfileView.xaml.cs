@@ -1,29 +1,51 @@
-﻿using Business.Business;
-using Business.Constans;
-using Business.Dao;
+﻿using Business.Dao;
 using Business.Models;
+using MongoDB.Bson;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace NextDoorAutomationApp
+namespace NextDoorAutomationApp.Views.Profile
 {
     /// <summary>
-    /// Interaction logic for GologinView.xaml
+    /// Interaction logic for ProfileView.xaml
     /// </summary>
-    public partial class GologinView : UserControl
+    public partial class ProfileView : UserControl
     {
+        private GologinInfo _gologinInfo;
         #region bien
         private int pageIndex = 1;
         private int pageSize = 20;
         private int total;
         #endregion
 
-        public GologinView()
+        public ProfileView()
         {
             InitializeComponent();
             LoadData();
             SetDefault();
+            TitleInput.Text = "List Profile";
+            DataContext = this;
+        }
+
+        public ProfileView(GologinInfo gologinInfo)
+        {
+            InitializeComponent();
+            this._gologinInfo = gologinInfo;
+            TitleInput.Text = $"List Profile of {gologinInfo.Name}";
+            SetDefault();
+            LoadData();
             DataContext = this;
         }
 
@@ -37,13 +59,24 @@ namespace NextDoorAutomationApp
 
         private void SetDefault()
         {
+            StatusFilter.SelectedIndex = 0;
             PageSizeComboBox.SelectedIndex = 1;
         }
 
-        private List<GologinInfo> Search()
+        private List<ProfileInfo> Search()
         {
             // Phương thức giả lập lấy dữ liệu các bài viết, thay thế với truy vấn thực tế.
-            return GologinDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text);
+            return ProfileDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text, _gologinInfo.IdStr, GetStatus());
+        }
+
+        private int GetStatus()
+        {
+            var selectedItem = StatusFilter.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
+                return int.Parse(selectedItem.Tag.ToString());
+            }
+            return -1;
         }
 
         private void UpdatePageNumber()
@@ -98,24 +131,25 @@ namespace NextDoorAutomationApp
         private void AddNewButton_Click(object sender, RoutedEventArgs e)
         {
             // Thay đổi màn hình
-            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new GologinAddView();
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileAddView(_gologinInfo);
         }
+
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var info = button?.DataContext as GologinInfo;
+            var info = button?.DataContext as ProfileInfo;
 
             // Thay đổi màn hình
-            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new GologinAddView(info);
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileAddView(_gologinInfo, info);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var info = button?.DataContext as GologinInfo;
+            var info = button?.DataContext as ProfileInfo;
 
-            if(info == null) return;
+            if (info == null) return;
 
             // Hiển thị thông báo xác nhận
             var result = MessageBox.Show(
@@ -128,20 +162,9 @@ namespace NextDoorAutomationApp
             // Nếu người dùng chọn "Yes"
             if (result == MessageBoxResult.Yes)
             {
-                GologinDao.GetInstance().Delete(info._id);
+                ProfileDao.GetInstance().Delete(info._id);
                 LoadData();
             }
-        }
-
-        private void ListProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var info = button?.DataContext as GologinInfo;
-
-            if (info == null) return;
-
-            // Thay đổi màn hình
-            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileView(info);
         }
     }
 }

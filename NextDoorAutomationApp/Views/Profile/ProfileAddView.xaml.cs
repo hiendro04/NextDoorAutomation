@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NextDoorAutomationApp
+namespace NextDoorAutomationApp.Views.Profile
 {
     /// <summary>
     /// Interaction logic for AddProfile.xaml
