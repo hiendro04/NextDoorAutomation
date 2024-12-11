@@ -73,14 +73,13 @@
 
             <!-- ProfileInfo -->
             <Button
-                Content="ProfileInfo"
+                Content="NeighborhoodInfo"
                 FontSize="16"
                 FontWeight="Bold"
                 Padding="10,5"
                 Margin="0,2,20,2"
                 BorderThickness="0"
-                Click="ProfileInfo_Click"
-                Visibility="Collapsed">
+                Click="ProfileInfo_Click">
                 <Button.Style>
                     <Style
                         TargetType="Button">

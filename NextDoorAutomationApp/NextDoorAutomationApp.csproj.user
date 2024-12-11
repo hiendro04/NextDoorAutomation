@@ -10,6 +10,9 @@
     <Compile Update="Views\Gologin\GologinAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Neighborhoods\NeighborhoodView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Profile\ProfileAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Gologin\GologinAddView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Neighborhoods\NeighborhoodView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Profile\ProfileAddView.xaml">

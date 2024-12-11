@@ -8,8 +8,8 @@
         $mdDialog.cancel();
     };
 
-    $scope.getData = function () {
-        $http.post("/Profile/GetDataNeighborhood", reqData)
+    $scope.GetDataCity = function () {
+        $http.post("/Profile/GetDataCity")
             .then(function (rs) {
                 if (rs.data.returnCode == "1") {
                     $scope.hide();
@@ -19,6 +19,19 @@
                 }
             });
     }
+
+    $scope.GetDataNeighborhood = function () {
+        $http.post("/Profile/GetDataNeighborhood")
+            .then(function (rs) {
+                if (rs.data.returnCode == "1") {
+                    $scope.hide();
+                }
+                else {
+                    $scope.cancel();
+                }
+            });
+    }
+
 
     $scope.init = function () {
     }

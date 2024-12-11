@@ -1,4 +1,6 @@
-﻿using NextDoorAutomationApp.Views.Gologin;
+﻿using Business.Models;
+using NextDoorAutomationApp.Views.Gologin;
+using NextDoorAutomationApp.Views.Neighborhoods;
 using NextDoorAutomationApp.Views.Post;
 using NextDoorAutomationApp.Views.Profile;
 using System.ComponentModel;
@@ -90,7 +92,7 @@ namespace NextDoorAutomationApp
             IsGologinInfoActive = false;
             IsProfileInfoActive = true;
             IsPostInfoActive = false;
-            CurrentView = new ProfileView();
+            CurrentView = new NeighborhoodView();
         }
 
         private void PostInfo_Click(object sender, RoutedEventArgs e)

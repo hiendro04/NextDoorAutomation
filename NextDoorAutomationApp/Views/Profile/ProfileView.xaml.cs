@@ -1,4 +1,5 @@
 ﻿using Business.Dao;
+using Business.Helpers;
 using Business.Models;
 using MongoDB.Bson;
 using System;
@@ -165,6 +166,34 @@ namespace NextDoorAutomationApp.Views.Profile
                 ProfileDao.GetInstance().Delete(info._id);
                 LoadData();
             }
+        }
+
+        private async void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                var info = button?.DataContext as ProfileInfo;
+                if (info == null) return;
+                var gologinInfo = GologinDao.GetInstance().GetById(info.GologinId);
+                var gologinHelper = new GoLoginApiHelper(gologinInfo.AccessTokens);
+                var wsUrl = await gologinHelper.StartProfileAsync(info.ProfilePublicId);
+
+                var aa = new WsUrlInfo()
+                {
+                    Name = info.Name,
+                    ProfileId = info.ProfilePublicId,
+                    WsUrl = wsUrl,
+                    CreatedDate = DateTime.Now,
+                    DelayTime = 10
+                };
+                WsUrlDao.GetInstance().Insert(aa);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
         }
     }
 }

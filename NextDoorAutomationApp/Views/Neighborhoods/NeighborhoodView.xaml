@@ -1,15 +1,11 @@
-﻿<UserControl
-    x:Class="NextDoorAutomationApp.Views.Profile.ProfileView"
+﻿<UserControl x:Class="NextDoorAutomationApp.Views.Neighborhoods.NeighborhoodView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NextDoorAutomationApp.Converter"
+             xmlns:local="clr-namespace:NextDoorAutomationApp.Views.Neighborhoods"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <local:StatusToTextConverter x:Key="StatusToTextConverter"/>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
@@ -24,74 +20,59 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
             <!-- Lọc theo tên-->
             <TextBlock Text="Name: "
-               Foreground="Gray"
-               VerticalAlignment="Center"
-               Margin="5,0,0,0"
-               IsHitTestVisible="False" />
+           Foreground="Gray"
+           VerticalAlignment="Center"
+           Margin="5,0,0,0"
+           IsHitTestVisible="False" />
             <TextBox Name="NameFilter" Width="200" Margin="0,10,10,0"/>
 
-            <!-- Lọc theo trạng thái -->
+            <!-- Lọc theo trạng thái --><!--
             <TextBlock Text="Type: "
-               Foreground="Gray"
-               VerticalAlignment="Center"
-               Margin="5,0,0,0"
-               IsHitTestVisible="False"/>
+           Foreground="Gray"
+           VerticalAlignment="Center"
+           Margin="5,0,0,0"
+           IsHitTestVisible="False"/>
             <ComboBox Name="StatusFilter" Width="150" Margin="0,10,10,0">
                 <ComboBoxItem Tag="-1" Content="All" />
                 <ComboBoxItem Tag="0" Content="SPAM" />
                 <ComboBoxItem Tag="1" Content="TPP" />
-            </ComboBox>
+            </ComboBox>-->
 
             <!-- Nút tìm kiếm -->
             <Button Content="Search" Margin="0,10,0,0" VerticalAlignment="Center" Click="SearchButton_Click" />
 
-            <!-- Nút Thêm mới -->
-            <Button Content="Add" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="200 10 0 0" Click="AddNewButton_Click" />
+            <!-- Nút Thêm mới --><!--
+            <Button Content="Add" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="200 10 0 0" Click="AddNewButton_Click" />-->
         </StackPanel>
 
         <!-- Danh sách post -->
         <DataGrid
-            Grid.Row="2"
-            Name="DataList"
-            AutoGenerateColumns="False"
-            Margin="10,10,10,60"
-            CanUserAddRows="False">
+        Grid.Row="2"
+        Name="DataList"
+        AutoGenerateColumns="False"
+        Margin="10,10,10,60"
+        CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
 
-                <DataGridTextColumn Header="Id" Binding="{Binding ProfilePublicId}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Link" Binding="{Binding ReferenceLink}" Width="*"/>
 
-                <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="100" IsReadOnly="True" />
-                
-                <DataGridTextColumn Header="Status" Binding="{Binding StatusName}" Width="100" IsReadOnly="True" />
+                <DataGridTextColumn Header="StateName" Binding="{Binding StateName}" Width="*" IsReadOnly="True" />
 
-                <DataGridTextColumn Header="User" Binding="{Binding Username}" Width="150" IsReadOnly="True" />
-                
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="200" IsReadOnly="True" />
+                <DataGridTextColumn Header="CityName" Binding="{Binding CityName}" Width="*" IsReadOnly="True" />
 
-                <!-- Thêm cột Action với các button thao tác -->
+                 Thêm cột Action với các button thao tác 
                 <DataGridTemplateColumn
                     Header="Action"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel
-                                Orientation="Horizontal">
-                                <!-- Button Start -->
+                            Orientation="Horizontal">
                                 <Button
-                                    Content="Start"
-                                    Margin="5"
-                                    Click="StartButton_Click" />
-                                <!-- Button Edit -->
-                                <Button
-                                    Content="Edit"
-                                    Margin="5"
-                                    Click="EditButton_Click" />
-                                <!-- Button Delete -->
-                                <Button
-                                    Content="Delete"
-                                    Margin="5"
-                                    Click="DeleteButton_Click" />
+                                Content="Follow"
+                                Margin="5"
+                                Click="FollowButton_Click" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
