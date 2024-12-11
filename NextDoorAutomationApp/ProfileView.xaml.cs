@@ -1,5 +1,6 @@
 ﻿using Business.Dao;
 using Business.Models;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace NextDoorAutomationApp
     /// </summary>
     public partial class ProfileView : UserControl
     {
+        private GologinInfo _gologinInfo;
         #region bien
         private int pageIndex = 1;
         private int pageSize = 20;
@@ -33,6 +35,17 @@ namespace NextDoorAutomationApp
             InitializeComponent();
             LoadData();
             SetDefault();
+            TitleInput.Text = "List Profile";
+            DataContext = this;
+        }
+
+        public ProfileView(GologinInfo gologinInfo)
+        {
+            InitializeComponent();
+            this._gologinInfo = gologinInfo;
+            TitleInput.Text = $"List Profile of {gologinInfo.Name}";
+            SetDefault();
+            LoadData();
             DataContext = this;
         }
 
@@ -53,7 +66,7 @@ namespace NextDoorAutomationApp
         private List<ProfileInfo> Search()
         {
             // Phương thức giả lập lấy dữ liệu các bài viết, thay thế với truy vấn thực tế.
-            return ProfileDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text, GetStatus());
+            return ProfileDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text, _gologinInfo.IdStr, GetStatus());
         }
 
         private int GetStatus()
@@ -117,8 +130,41 @@ namespace NextDoorAutomationApp
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)
         {
-            // Thay đổi màn hình sang AddProfileView
-            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileAddView();
+            // Thay đổi màn hình
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileAddView(_gologinInfo);
+        }
+
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var info = button?.DataContext as ProfileInfo;
+
+            // Thay đổi màn hình
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileAddView(_gologinInfo, info);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var info = button?.DataContext as ProfileInfo;
+
+            if (info == null) return;
+
+            // Hiển thị thông báo xác nhận
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the item: {info.Name}?",
+                "Delete Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            // Nếu người dùng chọn "Yes"
+            if (result == MessageBoxResult.Yes)
+            {
+                ProfileDao.GetInstance().Delete(info._id);
+                LoadData();
+            }
         }
     }
 }

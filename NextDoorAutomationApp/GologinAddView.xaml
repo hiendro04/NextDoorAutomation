@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NextDoorAutomationApp.ProfileAddView"
+﻿<UserControl x:Class="NextDoorAutomationApp.GologinAddView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,15 +8,22 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition
+                Height="80" />
             <RowDefinition
                 Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition
+                Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Tiêu đề -->
-        <TextBlock Grid.Row="0" Text="Add New Profile" FontSize="20" FontWeight="Bold" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock
+            Grid.Row="0"
+            x:Name="TitleInput"
+            FontSize="20"
+            FontWeight="Bold"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center" />
 
         <StackPanel
             Grid.Row="1"
@@ -33,30 +40,43 @@
         </StackPanel>
 
         <!-- Form nhập thông tin -->
-        <StackPanel Grid.Row="2" Margin="20">
-            <TextBlock Text="Name:" Margin="0,5" />
-            <TextBox Name="NameInput" Width="300" Margin="0,0,0,10" />
-
+        <StackPanel
+            Grid.Row="2"
+            Margin="20">
             <TextBlock
-                Text="ID:"
+                Text="Name:"
                 Margin="0,5" />
             <TextBox
-                Name="IdInput"
+                Name="NameInput"
                 Width="300"
                 Margin="0,0,0,10" />
 
-            <TextBlock Text="Type:" Margin="0,5" />
-            <ComboBox Name="TypeInput" Width="300" Margin="0,0,0,10">
-                <ComboBoxItem Tag="0" Content="SPAM" />
-                <ComboBoxItem Tag="1" Content="TPP" />
-            </ComboBox>
+            <TextBlock
+                Text="Access tokens:"
+                Margin="0,5" />
+            <TextBox
+                Name="AccessTokensInput"
+                Width="300"
+                Margin="0,0,0,10" />
 
-            <TextBlock Text="Description:" Margin="0,5" />
-            <TextBox Name="DescriptionInput" Width="300" Height="100" Margin="0,0,0,10" TextWrapping="Wrap" AcceptsReturn="True" />
+            <TextBlock
+                Text="Description:"
+                Margin="0,5" />
+            <TextBox
+                Name="DescriptionInput"
+                Width="300"
+                Height="100"
+                Margin="0,0,0,10"
+                TextWrapping="Wrap"
+                AcceptsReturn="True" />
 
             <!-- Nút Save -->
-            <Button Content="Save" Width="100" HorizontalAlignment="Left" 
-                    Margin="0,10" Click="SaveButton_Click" />
+            <Button
+                Content="Save"
+                Width="100"
+                HorizontalAlignment="Left"
+                Margin="0,10"
+                Click="SaveButton_Click" />
         </StackPanel>
     </Grid>
 </UserControl>

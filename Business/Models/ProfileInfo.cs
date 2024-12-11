@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Business.Constans;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Business.Models
@@ -19,9 +20,35 @@ namespace Business.Models
         public string Description { get; set; }
         public ObjectId UserId { get; set; }
         [BsonIgnore]
-        public string TypeName { get; set; }
+        public string TypeName {
+            get 
+            {
+                if(Type == (int)PROFILE_TYPE.SPAM)
+                {
+                    return "SPAM";
+                }
+                if (Type == (int)PROFILE_TYPE.TPP)
+                {
+                    return "TPP";
+                }
+                return "";
+            }
+        }
         [BsonIgnore]
-        public string StatusName { get; set; }
+        public string StatusName {
+            get
+            {
+                if (Status == (int)PROFILE_STATUS.ACTIVE)
+                {
+                    return "ACTIVE";
+                }
+                if (Status == (int)PROFILE_STATUS.BLOCK)
+                {
+                    return "BLOCK";
+                }
+                return "";
+            }
+        }
         [BsonIgnore]
         public string Username { get; set; }
         [BsonIgnore]

@@ -14,15 +14,57 @@
         </Grid.RowDefinitions>
         <!-- Header -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="LightGray">
-            <!-- GologinInfo -->
-            <Button Content="GologinInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
-                    Click="GologinInfo_Click">
+            <!-- PostInfo -->
+            <Button
+                x:Name="PostInfoButton"
+                Content="PostInfo"
+                FontSize="16"
+                FontWeight="Bold"
+                Padding="10,5"
+                Margin="0,2,20,2"
+                BorderThickness="0"
+                Click="PostInfo_Click">
                 <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="White" />
+                    <Style
+                        TargetType="Button">
+                        <Setter
+                            Property="Background"
+                            Value="White" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsGologinInfoActive}" Value="True">
-                                <Setter Property="Background" Value="Green" />
+                            <DataTrigger
+                                Binding="{Binding IsPostInfoActive}"
+                                Value="True">
+                                <Setter
+                                    Property="Background"
+                                    Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+            <!-- GologinInfo -->
+            <Button
+                Content="GologinInfo"
+                FontSize="16"
+                FontWeight="Bold"
+                Padding="10,5"
+                Margin="0,2,20,2"
+                BorderThickness="0"
+                Click="GologinInfo_Click">
+                <Button.Style>
+                    <Style
+                        TargetType="Button">
+                        <Setter
+                            Property="Background"
+                            Value="White" />
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsGologinInfoActive}"
+                                Value="True">
+                                <Setter
+                                    Property="Background"
+                                    Value="Green" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -30,29 +72,28 @@
             </Button>
 
             <!-- ProfileInfo -->
-            <Button Content="ProfileInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
-                    Click="ProfileInfo_Click" >
+            <Button
+                Content="ProfileInfo"
+                FontSize="16"
+                FontWeight="Bold"
+                Padding="10,5"
+                Margin="0,2,20,2"
+                BorderThickness="0"
+                Click="ProfileInfo_Click"
+                Visibility="Collapsed">
                 <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="White" />
+                    <Style
+                        TargetType="Button">
+                        <Setter
+                            Property="Background"
+                            Value="White" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsProfileInfoActive}" Value="True">
-                                <Setter Property="Background" Value="Green" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-
-            <!-- PostInfo -->
-            <Button x:Name="PostInfoButton" Content="PostInfo" FontSize="16" FontWeight="Bold" Padding="10,5" Margin="0,2,20,2"  BorderThickness="0"
-                    Click="PostInfo_Click">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="White" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPostInfoActive}" Value="True">
-                                <Setter Property="Background" Value="Green" />
+                            <DataTrigger
+                                Binding="{Binding IsProfileInfoActive}"
+                                Value="True">
+                                <Setter
+                                    Property="Background"
+                                    Value="Green" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

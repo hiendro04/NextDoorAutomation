@@ -31,18 +31,60 @@
 
             <!-- Nút tìm kiếm -->
             <Button Content="Search" Margin="0,10,0,0" VerticalAlignment="Center" Click="SearchButton_Click" />
+
+            <!-- Nút Thêm mới -->
+            <Button
+                Content="Add"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Width="100"
+                Margin="200 10 0 0"
+                Click="AddNewButton_Click" />
         </StackPanel>
 
-        <!-- Danh sách post -->
-        <DataGrid Grid.Row="2" Name="DataList" AutoGenerateColumns="False" Margin="10,10,10,60">
+        <!-- Danh sách -->
+        <DataGrid
+            Grid.Row="2"
+            Name="DataList"
+            AutoGenerateColumns="False"
+            Margin="10,10,10,60"
+            CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
 
-                <DataGridTextColumn Header="Api key" Binding="{Binding GologinPublicId}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Access tokens" Binding="{Binding AccessTokens}" Width="*" IsReadOnly="True" />
 
                 <DataGridTextColumn Header="Descripton" Binding="{Binding Description}" Width="*" IsReadOnly="True" />
 
                 <DataGridTextColumn Header="User" Binding="{Binding Username}" Width="*" IsReadOnly="True" />
+
+                <!-- Thêm cột Action với các button thao tác -->
+                <DataGridTemplateColumn
+                    Header="Action"
+                    Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <!-- Button Edit -->
+                                <Button
+                                    Content="List Profile"
+                                    Margin="5"
+                                    Click="ListProfileButton_Click" />
+                                <!-- Button Edit -->
+                                <Button
+                                    Content="Edit"
+                                    Margin="5"
+                                    Click="EditButton_Click" />
+                                <!-- Button Delete -->
+                                <Button
+                                    Content="Delete"
+                                    Margin="5"
+                                    Click="DeleteButton_Click" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 

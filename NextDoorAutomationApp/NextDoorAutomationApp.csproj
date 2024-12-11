@@ -9,7 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Post\PostView.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\Post\PostView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Gologin\" />
+    <Folder Include="Views\Post\" />
+    <Folder Include="Views\Profile\" />
   </ItemGroup>
 
 </Project>

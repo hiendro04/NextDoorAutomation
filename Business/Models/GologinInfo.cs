@@ -11,7 +11,7 @@ namespace Business.Models
     public class GologinInfo : BaseModel
     {
         public string Name { get; set; }
-        public string GologinPublicId { get; set; }
+        public string AccessTokens { get; set; }
         public string Description { get; set; }
         public ObjectId UserId { get; set; }
         [BsonIgnore]

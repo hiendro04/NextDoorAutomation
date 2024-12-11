@@ -57,7 +57,12 @@
         </StackPanel>
 
         <!-- Danh sách post -->
-        <DataGrid Grid.Row="2" Name="PostDataGrid" AutoGenerateColumns="False" Margin="10,10,10,60">
+        <DataGrid
+            Grid.Row="2"
+            Name="PostDataGrid"
+            AutoGenerateColumns="False"
+            Margin="10,10,10,60"
+            CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding CustomerName}" Width="150" IsReadOnly="True" />
 

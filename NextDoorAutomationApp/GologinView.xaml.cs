@@ -94,5 +94,54 @@ namespace NextDoorAutomationApp
             }
         }
         #endregion
+
+        private void AddNewButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Thay đổi màn hình
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new GologinAddView();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var info = button?.DataContext as GologinInfo;
+
+            // Thay đổi màn hình
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new GologinAddView(info);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var info = button?.DataContext as GologinInfo;
+
+            if(info == null) return;
+
+            // Hiển thị thông báo xác nhận
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the item: {info.Name}?",
+                "Delete Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            // Nếu người dùng chọn "Yes"
+            if (result == MessageBoxResult.Yes)
+            {
+                GologinDao.GetInstance().Delete(info._id);
+                LoadData();
+            }
+        }
+
+        private void ListProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var info = button?.DataContext as GologinInfo;
+
+            if (info == null) return;
+
+            // Thay đổi màn hình
+            (Application.Current.MainWindow.DataContext as MainWindow).CurrentView = new ProfileView(info);
+        }
     }
 }

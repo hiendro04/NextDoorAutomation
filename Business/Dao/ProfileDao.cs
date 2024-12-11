@@ -1,4 +1,5 @@
 ﻿using Business.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,17 @@ namespace Business.Dao
         }
         public ProfileDao() : base(COLLECTION_NAME) { }
 
-        public List<ProfileInfo> Search(out int total, int pageSize = 10, int pageIndex = 1, string textSearch = null, int type = -1)
+        public List<ProfileInfo> Search(out int total, int pageSize = 10, int pageIndex = 1, string textSearch = null, string gologinIdStr = "", int type = -1)
         {
             var f = Builders<ProfileInfo>.Filter.Empty;
             if (!string.IsNullOrWhiteSpace(textSearch))
             {
                 f &= Builders<ProfileInfo>.Filter.Where(p => p.Name.ToLower().Contains(textSearch.ToLower()));
+            }
+
+            if(!string.IsNullOrEmpty(gologinIdStr))
+            {
+                f &= Builders<ProfileInfo>.Filter.Eq(p => p.GologinId, ObjectId.Parse(gologinIdStr));
             }
 
 
