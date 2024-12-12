@@ -23,12 +23,17 @@ namespace Business.Dao
         }
         public NeighborhoodDao() : base(COLLECTION_NAME) { }
 
-        public List<NeighborhoodInfo> Search(out int total, int pageSize = 10, int pageIndex = 1, string textSearch = null)
+        public List<NeighborhoodInfo> Search(out int total, int pageSize = 10, int pageIndex = 1, string textSearch = null, List<ObjectId> cityIds = null)
         {
             var f = Builders<NeighborhoodInfo>.Filter.Empty;
             if (!string.IsNullOrWhiteSpace(textSearch))
             {
                 f &= Builders<NeighborhoodInfo>.Filter.Where(p => p.Name.ToLower().Contains(textSearch.ToLower()));
+            }
+
+            if(cityIds != null)
+            {
+                f &= Builders<NeighborhoodInfo>.Filter.In(p => p.CityId, cityIds);
             }
 
             total = (int)GetCollection().CountDocuments(f);

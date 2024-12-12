@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="NextDoorAutomationApp.Views.Neighborhoods.NeighborhoodView"
+﻿<UserControl
+    x:Class="NextDoorAutomationApp.Views.Neighborhoods.NeighborhoodView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,32 +18,99 @@
         <TextBlock Grid.Row="0" x:Name="TitleInput" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10" />
 
         <!-- Bộ lọc -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-            <!-- Lọc theo tên-->
-            <TextBlock Text="Name: "
-           Foreground="Gray"
-           VerticalAlignment="Center"
-           Margin="5,0,0,0"
-           IsHitTestVisible="False" />
-            <TextBox Name="NameFilter" Width="200" Margin="0,10,10,0"/>
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            VerticalAlignment="Top"
+            Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!-- Cột trái cho bộ lọc và nút tìm kiếm -->
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <!-- Cột phải -->
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Lọc theo trạng thái --><!--
-            <TextBlock Text="Type: "
-           Foreground="Gray"
-           VerticalAlignment="Center"
-           Margin="5,0,0,0"
-           IsHitTestVisible="False"/>
-            <ComboBox Name="StatusFilter" Width="150" Margin="0,10,10,0">
-                <ComboBoxItem Tag="-1" Content="All" />
-                <ComboBoxItem Tag="0" Content="SPAM" />
-                <ComboBoxItem Tag="1" Content="TPP" />
-            </ComboBox>-->
+                <!-- Bộ lọc và nút tìm kiếm -->
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Top">
+                    <!-- Lọc theo tên -->
+                    <TextBlock
+                        Text="Name: "
+                        Foreground="Gray"
+                        VerticalAlignment="Center"
+                        Margin="5,0,0,0"
+                        IsHitTestVisible="False" />
+                    <TextBox
+                        Name="NameFilter"
+                        Width="200"
+                        Margin="0,10,10,0"/>
 
-            <!-- Nút tìm kiếm -->
-            <Button Content="Search" Margin="0,10,0,0" VerticalAlignment="Center" Click="SearchButton_Click" />
+                    <!-- Lọc theo city -->
+                    <TextBlock
+                        Text="City name: "
+                        Foreground="Gray"
+                        VerticalAlignment="Center"
+                        Margin="5,0,0,0"
+                        IsHitTestVisible="False" />
+                    <TextBox
+                        Name="CityNameFilter"
+                        Width="200"
+                        Margin="0,10,10,0" />
 
-            <!-- Nút Thêm mới --><!--
-            <Button Content="Add" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="200 10 0 0" Click="AddNewButton_Click" />-->
+                    <!-- Nút tìm kiếm -->
+                    <Button
+                        Content="Search"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Center"
+                        Click="SearchButton_Click" 
+                        />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="|"
+                    Foreground="Gray"
+                    VerticalAlignment="Center"
+                    Margin="100,0,0,0"
+                    IsHitTestVisible="False" />
+
+                <!-- ComboBox danh sách Profile -->
+                <StackPanel
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Top">
+                    <TextBlock
+                        Text="Profile: "
+                        Foreground="Gray"
+                        VerticalAlignment="Center"
+                        Margin="100,0,0,0"
+                        IsHitTestVisible="False" />
+                    <ComboBox
+                        Name="ProfileComboBox"
+                        Width="200"
+                        HorizontalAlignment="Right"
+                        Margin="5,10,0,0"
+                        DisplayMemberPath="Name"
+                        SelectedValuePath="IdStr"
+                        SelectionChanged="ProfileComboBox_SelectionChanged" />
+
+                    <!-- Nút Multi Follow -->
+                    <Button
+                        Content="Multi Follow"
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        Margin="10,10,0,0"
+                        VerticalAlignment="Center"
+                        Click="MultiFollowButton_Click" />
+                </StackPanel>
+            </Grid>
         </StackPanel>
 
         <!-- Danh sách post -->
@@ -61,19 +129,20 @@
 
                 <DataGridTextColumn Header="CityName" Binding="{Binding CityName}" Width="*" IsReadOnly="True" />
 
-                 Thêm cột Action với các button thao tác 
                 <DataGridTemplateColumn
                     Header="Action"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel
+                            <!--<StackPanel
                             Orientation="Horizontal">
                                 <Button
                                 Content="Follow"
                                 Margin="5"
                                 Click="FollowButton_Click" />
-                            </StackPanel>
+                            </StackPanel>-->
+                            
+                            <CheckBox Margin="5" IsChecked="{Binding IsSelected}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -90,10 +159,12 @@
             <!-- ComboBox để chọn số bản ghi trên mỗi trang -->
             <ComboBox Name="PageSizeComboBox" Width="80" Margin="10,0" Padding="5" SelectionChanged="PageSizeComboBox_SelectionChanged">
                 <ComboBoxItem Content="10" />
-                <ComboBoxItem Content="20" />
                 <ComboBoxItem Content="30" />
-                <ComboBoxItem Content="40" />
                 <ComboBoxItem Content="50" />
+                <ComboBoxItem Content="100" />
+                <ComboBoxItem Content="150" />
+                <ComboBoxItem Content="200" />
+                <ComboBoxItem Content="300" />
             </ComboBox>
         </StackPanel>
     </Grid>

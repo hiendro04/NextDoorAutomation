@@ -1,19 +1,12 @@
-﻿using Business.Dao;
+﻿using Business.Constans;
+using Business.Dao;
 using Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NextDoorAutomationApp.Views.Neighborhoods
 {
@@ -30,9 +23,10 @@ namespace NextDoorAutomationApp.Views.Neighborhoods
         public NeighborhoodView()
         {
             InitializeComponent();
+            TitleInput.Text = "List Neighborhoods";
             LoadData();
             SetDefault();
-            TitleInput.Text = "List Neighborhoods";
+            LoadProfiles();
             DataContext = this;
         }
         private void LoadData()
@@ -41,10 +35,20 @@ namespace NextDoorAutomationApp.Views.Neighborhoods
             DataList.ItemsSource = data;
             UpdatePageNumber();
         }
+
+        private void LoadProfiles()
+        {
+            var profiles = ProfileDao.GetInstance().GetAll().Where(p => p.Type == (int)PROFILE_TYPE.TPP).ToList();
+            ProfileComboBox.ItemsSource = profiles;
+        }
+
+
         private List<NeighborhoodInfo> Search()
         {
+            var citys = CityDao.GetInstance().GetAllActive().Where(c => c.Name.ToLower().Contains(CityNameFilter.Text.Trim().ToLower())).ToList();
+            var cityIds = citys.Select(c => c._id).ToList();
             // Phương thức giả lập lấy dữ liệu các bài viết, thay thế với truy vấn thực tế.
-            var data = NeighborhoodDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text);
+            var data = NeighborhoodDao.GetInstance().Search(out total, pageSize, pageIndex, NameFilter.Text, cityIds);
             var stateInfo = StateDao.GetInstance().GetAll().FirstOrDefault();
             foreach (var item in data)
             {
@@ -106,9 +110,36 @@ namespace NextDoorAutomationApp.Views.Neighborhoods
                     box.Background = null;
             }
         }
+
+        private void ProfileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProfileComboBox.SelectedItem is ProfileInfo selectedProfile)
+            {
+                MessageBox.Show($"Selected Profile: {selectedProfile.Name}, Id: {selectedProfile.IdStr}");
+            }
+        }
+
         private void FollowButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MultiFollowButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy danh sách các post đã được chọn
+            var selectedList = DataList.ItemsSource.OfType<NeighborhoodInfo>()
+                                                      .Where(n => n.IsSelected)
+                                                      .ToList();
+
+            // Xử lý danh sách các post đã chọn (ví dụ: thực hiện hành động "Follow" cho các post đã chọn)
+            foreach (var n in selectedList)
+            {
+                // Ví dụ xử lý follow
+                Console.WriteLine($"Following post: {n.Name}");
+            }
+
+            // Thông báo kết quả
+            MessageBox.Show($"{selectedList.Count} posts selected for Multi Follow.");
         }
     }
 }

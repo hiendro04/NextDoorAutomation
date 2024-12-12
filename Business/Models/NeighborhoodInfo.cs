@@ -17,6 +17,8 @@ namespace Business.Models
         public ObjectId StateId { get; set; }
         public ObjectId CityId { get; set; }
         [BsonIgnore]
+        public bool IsSelected { get; set; }
+        [BsonIgnore]
         public string StateName { get; set; }
         [BsonIgnore]
         public string CityName { get; set; }

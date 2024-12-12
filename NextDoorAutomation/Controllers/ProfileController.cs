@@ -95,7 +95,7 @@ namespace NextDoorAutomation.Controllers
                         var nbhCount = 0;
                         driver.Navigate().GoToUrl(city.ReferenceLink);
 
-                        await Task.Delay(5000);
+                        await Task.Delay(3000);
 
                         wait.Until((x) =>
                         {
@@ -108,21 +108,21 @@ namespace NextDoorAutomation.Controllers
                         var scrollHeight = (long)jsExecutor.ExecuteScript("return document.body.scrollHeight");
                         // Cuộn xuống 30% trang
                         jsExecutor.ExecuteScript($"window.scrollTo(0, {scrollHeight * 0.5});");
-                        await Task.Delay(5000);
+                        await Task.Delay(3000);
                         scrollHeight = (long)jsExecutor.ExecuteScript("return document.body.scrollHeight");
                         // Cuộn xuống 50% trang
                         jsExecutor.ExecuteScript($"window.scrollTo(0, {scrollHeight * 0.5});");
-                        await Task.Delay(5000);
+                        await Task.Delay(3000);
                         scrollHeight = (long)jsExecutor.ExecuteScript("return document.body.scrollHeight");
                         // Cuộn xuống 80% trang
                         jsExecutor.ExecuteScript($"window.scrollTo(0, {scrollHeight * 0.6});");
-                        await Task.Delay(5000);
+                        await Task.Delay(3000);
                         scrollHeight = (long)jsExecutor.ExecuteScript("return document.body.scrollHeight");
                         // Cuộn xuống 100% trang
-                        jsExecutor.ExecuteScript($"window.scrollTo(0, {scrollHeight * 0.8});");
+                        jsExecutor.ExecuteScript($"window.scrollTo(0, {scrollHeight * 0.7});");
                         // CSS Selector cho div với class dài
                         var cssSelector = "div.Styled_display-sm__zpop7k53.Grid__n0b9cgg.Grid_gridTemplateColumns-xs__n0b9cg5.Grid__n0b9cgh.reset__1m5uu6e0";
-                        await Task.Delay(5000);
+                        await Task.Delay(3000);
 
                         // Lấy tất cả thẻ <a> bên trong div đó
                         var links = driver.FindElements(By.CssSelector($"{cssSelector} > div.reset__1m5uu6e0 > a"));
